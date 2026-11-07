@@ -10,10 +10,10 @@ By: Kowalski
 
 Baixe o `BB-ROE-Setup-<versão>.exe` em **[Releases](https://github.com/streamnestapp/bb-roe/releases)** e escolha:
 
-- **Servidor e cliente**: o PC abre as partidas e também joga. Use o atalho "BB-ROE", escolha o mapa e clique em INICIAR JOGO. O painel web fica em http://127.0.0.1:8090.
+- **Servidor e cliente**: o PC abre as partidas e também joga. Use o atalho "BB-ROE" e clique em START SERVER: o painel abre no navegador (http://127.0.0.1:8090), e lá se escolhe o mapa e se inicia a partida.
 - **Apenas cliente**: o PC só entra na sala aberta por outro PC. Use o atalho "BB-ROE (outro PC)".
 
-No jogo: Play → Start Matchmaking.
+No jogo: Play → Start Matchmaking, ou Play → Training (vs. AI) para jogar com bots.
 
 ## Requisitos
 
@@ -32,6 +32,6 @@ Unofficial home server for Ring of Elysium (2022 build, `Europa_Client.exe` 0.2.
 
 By: Kowalski
 
-- **Install:** download `BB-ROE-Setup-<version>.exe` from **[Releases](https://github.com/streamnestapp/bb-roe/releases)**. "Server and client" hosts matches and plays (launcher "BB-ROE", web panel at http://127.0.0.1:8090); "Client only" joins a room hosted by another PC ("BB-ROE (outro PC)"). In game: Play → Start Matchmaking.
+- **Install:** download `BB-ROE-Setup-<version>.exe` from **[Releases](https://github.com/streamnestapp/bb-roe/releases)**. "Server and client" hosts matches and plays: open the "BB-ROE" launcher and click START SERVER; the web panel opens in the browser (http://127.0.0.1:8090), where you choose the map and start the match. "Client only" joins a room hosted by another PC ("BB-ROE (other PC)"). In game: Play → Start Matchmaking, or Play → Training (vs. AI) to play with bots.
 - **Requirements:** Windows 10/11 and the 2022 Steam version of Ring of Elysium. The game is not included and none of its files are modified.
 - **Notice:** unofficial project, not affiliated with the developer, publisher or Valve. Provided "as is" for personal use, at your own risk.
