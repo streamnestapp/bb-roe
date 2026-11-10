@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BB-ROE — Ring of Elysium home server</title>
+<meta name="description" content="Unofficial home server for Ring of Elysium (2022 build). Download the BB-ROE installer, join the online server or host your own.">
+<meta property="og:title" content="BB-ROE — play Ring of Elysium again">
+<meta property="og:description" content="Unofficial home server for Ring of Elysium (2022 build). One installer, one launcher: play online, with friends or alone with bots.">
+<meta name="theme-color" content="#e8742a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: alto de montanha nevada — faixa de topo com o download, depois três passos, modos de jogo, requisitos e aviso */
+:root{
+  --bg:#f3f5f7; --surface:#ffffff; --line:#d6dde4; --fg:#16202a; --muted:#56636f;
+  --sunset:#e8742a; --sunset-2:#f4a03c; --ink-on-sunset:#1b0f05; --snow:#eaf1f6; --ok:#1f9a62;
+  --display:"Archivo",system-ui,sans-serif; --body:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#0d1217; --surface:#151c23; --line:#26313b; --fg:#e6edf3; --muted:#9aa8b5;
+  --snow:#1a2430; --ok:#46c98c; color-scheme:dark}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--body)}
+a{color:inherit}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+.hero{background:
+   radial-gradient(120% 90% at 85% 0%, rgba(244,160,60,.55), transparent 60%),
+   linear-gradient(180deg,#26150c 0%,#4a2412 45%,#c2581e 100%);
+  color:#fff7ef;padding-block:56px 64px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:90px;pointer-events:none;
+  background:linear-gradient(180deg,transparent,var(--bg));opacity:.0}
+.ridge{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:80px;display:block}
+.ridge path{fill:var(--bg)}
+.brand{display:flex;align-items:center;gap:10px;font:800 1rem/1 var(--display);letter-spacing:.14em;text-transform:uppercase;opacity:.9}
+.brand i{width:10px;height:10px;border-radius:50%;background:var(--sunset-2);box-shadow:0 0 0 4px rgba(244,160,60,.25)}
+h1{font:900 clamp(2.2rem,6.5vw,4rem)/1.02 var(--display);margin:18px 0 12px;letter-spacing:-.02em;text-wrap:balance;max-width:16ch}
+.lead{font-size:1.12rem;max-width:56ch;margin:0 0 28px;color:#ffe9d6}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:10px;font:800 1.05rem/1 var(--display);text-decoration:none;border-radius:10px;padding:16px 22px;letter-spacing:.01em}
+.btn.dl{background:#fff;color:var(--ink-on-sunset);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.btn.dl:hover{transform:translateY(-1px)}
+.btn.ghost{color:#fff;border:1.5px solid rgba(255,255,255,.55)}
+.btn:focus-visible{outline:3px solid var(--sunset-2);outline-offset:3px}
+.meta{font:500 .85rem/1.4 var(--mono);color:#ffd9bb;margin-top:12px}
+.server{margin-top:30px;display:inline-flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:12px 16px}
+.server .dot{width:10px;height:10px;border-radius:50%;background:#3fd18a;box-shadow:0 0 0 4px rgba(63,209,138,.25)}
+.server code{font:500 1.05rem var(--mono);color:#fff}
+.copy{font:600 .85rem var(--body);border:0;border-radius:6px;padding:6px 10px;background:#fff;color:#1b0f05;cursor:pointer}
+main{padding-block:36px 64px;display:flex;flex-direction:column;gap:56px}
+h2{font:800 1.6rem/1.2 var(--display);margin:0 0 18px;letter-spacing:-.01em}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;counter-reset:s}
+.steps li{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;counter-increment:s;min-width:0}
+.steps li::before{content:counter(s);display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--sunset);color:#fff;font:800 .95rem var(--display);margin-bottom:10px}
+.steps b{display:block;font-family:var(--display);font-size:1.08rem;margin-bottom:4px}
+.steps p{margin:0;color:var(--muted)}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.mode{border-top:3px solid var(--sunset);background:var(--surface);border-radius:0 0 12px 12px;padding:18px;border-left:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.mode h3{font:800 1.1rem var(--display);margin:0 0 6px}
+.mode p{margin:0;color:var(--muted)}
+.req{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px 28px;padding:0;margin:0;list-style:none}
+.req li{padding-left:22px;position:relative}
+.req li::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:10px;border-radius:2px;background:var(--sunset)}
+.req code{font-family:var(--mono);font-size:.88em;background:var(--snow);padding:1px 5px;border-radius:4px}
+.note{background:var(--snow);border-radius:12px;padding:18px 20px;color:var(--muted);font-size:.95rem}
+.note b{color:var(--fg)}
+footer{border-top:1px solid var(--line);padding-block:22px 40px;color:var(--muted);font-size:.9rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+@media (prefers-reduced-motion:reduce){.btn.dl:hover{transform:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="brand"><i></i>BB-ROE</div>
+    <h1>Play Ring of Elysium again.</h1>
+    <p class="lead">An unofficial home server for the 2022 build. One installer, one launcher: jump on the online server, play with friends, or train alone against bots.</p>
+    <div class="cta">
+      <a class="btn dl" id="dl" href="https://github.com/streamnestapp/bb-roe/releases/latest">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span id="dl-label">Download for Windows</span>
+      </a>
+      <a class="btn ghost" href="https://github.com/streamnestapp/bb-roe/releases">All versions</a>
+    </div>
+    <div class="meta" id="dl-meta">Latest version on GitHub Releases · Windows 10/11 · 64-bit</div>
+    <div class="server" aria-label="Online server">
+      <span class="dot" aria-hidden="true"></span>
+      <span>Online server</span>
+      <code id="ip">135.181.144.167</code>
+      <button class="copy" id="copy" type="button">Copy IP</button>
+    </div>
+  </div>
+  <svg class="ridge" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 80V52l120-24 90 18 140-38 110 30 95-14 150 34 120-40 160 36 110-22 125 26 120-20V80z"/></svg>
+</header>
+
+<main class="wrap">
+  <section>
+    <h2>Get in a match in three steps</h2>
+    <ol class="steps">
+      <li><b>Install</b><p>Run <code>BB-ROE-Setup.exe</code> and point it to your Ring of Elysium folder from Steam.</p></li>
+      <li><b>Open BB-ROE</b><p>Use the BB-ROE shortcut and choose <strong>Play online</strong>. The server IP is already filled in.</p></li>
+      <li><b>Press PLAY ONLINE</b><p>The game opens. In the lobby, go to <strong>Play → Start Matchmaking</strong>.</p></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Three ways to play</h2>
+    <div class="modes">
+      <div class="mode"><h3>Play online</h3><p>Join the shared online server with other players and bots. Matches rotate between Mt. Dione and Europa.</p></div>
+      <div class="mode"><h3>A friend's room</h3><p>Join a room hosted by a friend, on your local network or over the internet.</p></div>
+      <div class="mode"><h3>Host my own server</h3><p>Your PC runs the matches. Pick the map, mode and bots in the web panel, and invite friends.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Requirements</h2>
+    <ul class="req">
+      <li>Windows 10 or 11, 64-bit.</li>
+      <li>Ring of Elysium from Steam, <strong>2022 build 0.2.989.0</strong>. The game is not included.</li>
+      <li>The launcher checks <code>Europa_Client.exe</code> by SHA-256. Other versions won't connect.</li>
+      <li>Every PC needs its own copy of the game.</li>
+    </ul>
+  </section>
+
+  <section class="note">
+    <b>Only download from this page or the GitHub link.</b> BB-ROE is free, never sold and never shared as a zip in DMs. If someone sends you "BB-ROE" from another place, don't run it.
+    <br><br>
+    Unofficial project, not affiliated with the developer, the publisher or Valve. Game names belong to their owners. Provided as is, for personal use. None of the game's EXE or DLL files are modified.
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>BB-ROE · by Kowalski</span>
+    <span><a href="https://github.com/streamnestapp/bb-roe">GitHub</a> · <a href="https://github.com/streamnestapp/bb-roe/releases">Releases</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btn=document.getElementById('copy'), ip=document.getElementById('ip').textContent;
+  btn.addEventListener('click',function(){
+    function done(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy IP'},1600)}
+    if(navigator.clipboard){navigator.clipboard.writeText(ip).then(done,function(){sel()})}else{sel()}
+    function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('ip'));var s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Press Ctrl+C'}
+  });
+  // Direct link to the installer of the latest release (falls back to the Releases page).
+  fetch('https://api.github.com/repos/streamnestapp/bb-roe/releases/latest').then(function(r){return r.ok?r.json():null}).then(function(rel){
+    if(!rel||!rel.assets)return;
+    var exe=rel.assets.filter(function(a){return /\.exe$/i.test(a.name)})[0];
+    if(!exe)return;
+    document.getElementById('dl').href=exe.browser_download_url;
+    document.getElementById('dl-label').textContent='Download BB-ROE '+rel.tag_name.replace(/^v/,'');
+    var mb=Math.round(exe.size/1048576), d=new Date(rel.published_at);
+    document.getElementById('dl-meta').textContent=exe.name+' · '+mb+' MB · released '+d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})+' · Windows 10/11';
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>
