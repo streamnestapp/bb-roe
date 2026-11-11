@@ -65,6 +65,15 @@ h2{font:800 1.6rem/1.2 var(--display);margin:0 0 18px;letter-spacing:-.01em}
 .mode{border-top:3px solid var(--sunset);background:var(--surface);border-radius:0 0 12px 12px;padding:18px;border-left:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
 .mode h3{font:800 1.1rem var(--display);margin:0 0 6px}
 .mode p{margin:0;color:var(--muted)}
+.maps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.map{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.map img{display:block;width:100%;height:auto;aspect-ratio:480/195;object-fit:cover}
+.map div{padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.map h3{font:800 1.1rem var(--display);margin:0}
+.map p{margin:0;color:var(--muted);font-size:.95rem}
+.tag{align-self:flex-start;font:600 .75rem/1 var(--body);letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:5px 9px;margin-top:4px}
+.tag.on{background:rgba(31,154,98,.14);color:var(--ok)}
+.tag.host{background:var(--snow);color:var(--muted)}
 .req{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px 28px;padding:0;margin:0;list-style:none}
 .req li{padding-left:22px;position:relative}
 .req li::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:10px;border-radius:2px;background:var(--sunset)}
@@ -116,6 +125,15 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-betw
       <div class="mode"><h3>Play online</h3><p>Join the shared online server with other players and bots. Matches rotate between Mt. Dione and Europa.</p></div>
       <div class="mode"><h3>A friend's room</h3><p>Join a room hosted by a friend, on your local network or over the internet.</p></div>
       <div class="mode"><h3>Host my own server</h3><p>Your PC runs the matches. Pick the map, mode and bots in the web panel, and invite friends.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Maps</h2>
+    <div class="maps">
+      <article class="map"><img src="img/map-iceland.jpg" alt="Mt. Dione: snowy mountains, radar dish and observatory" loading="lazy" width="480" height="195"><div><h3>Mt. Dione</h3><p>The classic snowy mountain, with the cable car and the rescue helicopter.</p><span class="tag on">Online rotation</span></div></article>
+      <article class="map"><img src="img/map-killzone.jpg" alt="Europa: snowy industrial zone with cooling towers" loading="lazy" width="480" height="194"><div><h3>Europa</h3><p>Industrial snowfields, boats along the coast and airdrops.</p><span class="tag on">Online rotation</span></div></article>
+      <article class="map"><img src="img/map-desert.jpg" alt="Vera: desert canyon with a radar dish" loading="lazy" width="480" height="195"><div><h3>Vera</h3><p>Desert canyons and open fights. Out of the online rotation for now.</p><span class="tag host">Host your own server</span></div></article>
     </div>
   </section>
 
