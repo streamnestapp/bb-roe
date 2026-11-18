@@ -50,9 +50,13 @@ h1{font:900 clamp(2.2rem,6.5vw,4rem)/1.02 var(--display);margin:18px 0 12px;lett
 .btn.ghost{color:#fff;border:1.5px solid rgba(255,255,255,.55)}
 .btn:focus-visible{outline:3px solid var(--sunset-2);outline-offset:3px}
 .meta{font:500 .85rem/1.4 var(--mono);color:#b9c8d6;margin-top:12px}
-.server{margin-top:30px;display:inline-flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:12px 16px}
+.server{margin-top:30px;display:inline-grid;grid-template-columns:auto auto auto;align-items:center;gap:10px 14px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:12px 16px;max-width:100%}
+.server .title{grid-column:1/-1;display:flex;align-items:center;gap:10px;font-weight:600}
 .server .dot{width:10px;height:10px;border-radius:50%;background:#3fd18a;box-shadow:0 0 0 4px rgba(63,209,138,.25)}
+.server .where{color:#d7e2ec}
 .server code{font:500 1.05rem var(--mono);color:#fff}
+.server .hint{grid-column:1/-1;font-size:.85rem;color:#b9c8d6;margin:0}
+@media (max-width:420px){.server{grid-template-columns:auto auto}.server .where{grid-column:1/-1;margin-bottom:-6px}}
 .copy{font:600 .85rem var(--body);border:0;border-radius:6px;padding:6px 10px;background:#fff;color:#1b0f05;cursor:pointer}
 main{padding-block:36px 64px;display:flex;flex-direction:column;gap:56px}
 h2{font:800 1.6rem/1.2 var(--display);margin:0 0 18px;letter-spacing:-.01em}
@@ -102,11 +106,12 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-betw
       </a>
     </div>
     <div class="meta" id="dl-meta">Latest version on GitHub Releases · Windows 10/11 · 64-bit</div>
-    <div class="server" aria-label="Online server">
-      <span class="dot" aria-hidden="true"></span>
-      <span>Online server</span>
-      <code id="ip">135.181.144.167</code>
-      <button class="copy" id="copy" type="button">Copy IP</button>
+    <div class="server" aria-label="Online servers">
+      <div class="title"><span class="dot" aria-hidden="true"></span><span>Online servers</span></div>
+      <span class="where">Helsinki (EU)</span><code>135.181.144.167</code><button class="copy" type="button">Copy IP</button>
+      <span class="where">Ashburn (US)</span><code>178.156.207.65</code><button class="copy" type="button">Copy IP</button>
+      <span class="where">Brazil</span><code>191.252.209.229</code><button class="copy" type="button">Copy IP</button>
+      <p class="hint">BB-ROE picks the region for you. You only need an IP for Other IP.</p>
     </div>
   </div>
   <svg class="ridge" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 80V52l120-24 90 18 140-38 110 30 95-14 150 34 120-40 160 36 110-22 125 26 120-20V80z"/></svg>
@@ -117,7 +122,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-betw
     <h2>Get in a match in three steps</h2>
     <ol class="steps">
       <li><b>Install</b><p>Run <code>BB-ROE-Setup.exe</code> and point it to your Ring of Elysium folder from Steam.</p></li>
-      <li><b>Open BB-ROE</b><p>Use the BB-ROE shortcut and choose <strong>Play online</strong>. The server IP is already filled in.</p></li>
+      <li><b>Open BB-ROE</b><p>Use the BB-ROE shortcut and choose <strong>Play online</strong>. Pick a region or leave it on <strong>Automatic</strong>.</p></li>
       <li><b>Press PLAY ONLINE</b><p>The game opens. In the lobby, go to <strong>Play → Start Matchmaking</strong>.</p></li>
     </ol>
   </section>
@@ -172,11 +177,13 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-betw
 
 <script>
 (function(){
-  var btn=document.getElementById('copy'), ip=document.getElementById('ip').textContent;
-  btn.addEventListener('click',function(){
-    function done(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy IP'},1600)}
-    if(navigator.clipboard){navigator.clipboard.writeText(ip).then(done,function(){sel()})}else{sel()}
-    function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('ip'));var s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Press Ctrl+C'}
+  Array.prototype.forEach.call(document.querySelectorAll('.server .copy'),function(btn){
+    var code=btn.previousElementSibling, ip=code.textContent;
+    btn.addEventListener('click',function(){
+      function done(){btn.textContent='Copied';setTimeout(function(){btn.textContent='Copy IP'},1600)}
+      function sel(){var r=document.createRange();r.selectNodeContents(code);var s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Press Ctrl+C'}
+      if(navigator.clipboard){navigator.clipboard.writeText(ip).then(done,sel)}else{sel()}
+    });
   });
   // Direct link to the installer of the latest release (falls back to the Releases page).
   fetch('https://api.github.com/repos/streamnestapp/bb-roe/releases/latest').then(function(r){return r.ok?r.json():null}).then(function(rel){
